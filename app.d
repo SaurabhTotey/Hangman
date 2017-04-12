@@ -37,6 +37,7 @@ static void main() {
 	vocab = file.byLineCopy().array();
 	file.close();
 	getNewWord();
+	clearLog();
 	while(amtWrong < wrongToEndGame){
 		writeln(gameString());
 		stdout.flush();
@@ -54,7 +55,9 @@ static void main() {
 		}
 	}
 	clearLog();
-	writeln("You lost with " ~ to!string(points) ~ " points and a correct guess percentage of ", 100 * amtRight / amtWrong, "%");
+	writeln(gameString());
+	writeln("You lost on \"" ~ word ~ "\". Press enter to continue...");
+	stdin.readln();
 }
 
 /**
