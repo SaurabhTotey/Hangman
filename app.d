@@ -37,17 +37,24 @@ static void main() {
 	vocab = file.byLineCopy().array();
 	file.close();
 	getNewWord();
-	writeln(gameString());
 	while(amtWrong < wrongToEndGame){
+		writeln(gameString());
 		stdout.flush();
 		string input = strip(stdin.readln());
 		do{
 			input = strip(stdin.readln());
-		}while(input == "");
+		}while(input == "" || guessed.canFind(input));
 		clearLog();
-		interpretInput(input);
-		writeln(gameString());
+		if(interpretInput(input)){
+			writeln("Good job! You completed your word \"" ~ word ~ "\"! Press enter to continue...");
+			points += 5;
+			getNewWord();
+			stdout.flush();
+			stdin.readln();
+		}
 	}
+	clearLog();
+	writeln("You lost with " ~ to!string(points) ~ " points and a correct guess percentage of ", 100 * amtRight / amtWrong, "%");
 }
 
 /**
@@ -65,6 +72,7 @@ static void clearLog() {
 static void getNewWord(){
 	word = vocab[uniform(0, vocab.length)];
 	displayableWord = null;
+	guessed = null;
 	for(int i = 0; i < word.length; i++){
 		displayableWord ~= "_";
 	}
@@ -118,25 +126,31 @@ static void incrementWrong(){
 
 /**
  * Interprets whatever is passed to it and game is updated accordingly
+ * Returns whether the word was completed
  */
-static void interpretInput(string toInterpret){
+static bool interpretInput(string toInterpret){
 	guessed ~= toInterpret;
 	string[] splitString = split(word, toInterpret);
 	int amtInString = splitString.length - 1;
 	if(amtInString == 0){
 		incrementWrong();
-		return;
+		return false;
 	}
-	int ptsToAdd;
-	for(int i = 0; i < toInterpret.length; i++){
-		char character = toInterpret[i];
-		ptsToAdd += (canFind("aeiou", character))? 1 : 3;
-		amtRight++;
-	}
-	points += amtInString * ptsToAdd;
-	foreach(string stillExists ; splitString){
-		for(int i = 0; i < toInterpret.length; i++){
-			displayableWord[stillExists.length + i] = to!string(toInterpret[i]);
+	for(int i = 0; i < word.length - toInterpret.length + 1; i++){
+		bool startsAtThisIndex = true;
+		for(int j = 0; j < toInterpret.length; j++){
+			if(word[i + j] != toInterpret[j]){
+				startsAtThisIndex = false;
+				break;
+			}
+		}
+		if(startsAtThisIndex){
+			for(int j = 0; j < toInterpret.length; j++){
+				amtRight++;
+				displayableWord[i + j] = to!string(toInterpret[j]);
+				points += (canFind("aeiou", toInterpret[j]))? 1 : 3;
+			}
 		}
 	}
+	return !canFind(displayableWord, "_");
 }
