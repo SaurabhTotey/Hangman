@@ -44,7 +44,7 @@ static void main() {
 		stdout.flush();
 		string input;
 		do{
-			input = strip(readln());
+			input = strip(readln()).toLower();
 		}while(input == "" || guessed.canFind(input));
 		clearLog();
 		if(interpretInput(input)){
