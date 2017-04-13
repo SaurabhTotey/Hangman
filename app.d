@@ -6,6 +6,7 @@ import std.file;
 import std.conv;
 import std.regex;
 import std.algorithm.searching;
+import std.algorithm.mutation;
 
 /**
  * A list of all of the needed data throughout the game
@@ -74,7 +75,9 @@ static void clearLog() {
  * Generates a random new word and sets the current word as the new word
  */
 static void getNewWord(){
-	word = vocab[uniform(0, vocab.length)];
+	int index = uniform(0, vocab.length);
+	word = vocab[index];
+	remove(vocab, index);
 	displayableWord = null;
 	guessed = null;
 	for(int i = 0; i < word.length; i++){
