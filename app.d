@@ -41,9 +41,9 @@ static void main() {
 	while(amtWrong < wrongToEndGame){
 		writeln(gameString());
 		stdout.flush();
-		string input = strip(stdin.readln());
+		string input;
 		do{
-			input = strip(stdin.readln());
+			input = strip(readln());
 		}while(input == "" || guessed.canFind(input));
 		clearLog();
 		if(interpretInput(input)){
@@ -51,13 +51,14 @@ static void main() {
 			points += 5;
 			getNewWord();
 			stdout.flush();
-			stdin.readln();
+			readln();
 		}
 	}
 	clearLog();
 	writeln(gameString());
 	writeln("You lost on \"" ~ word ~ "\". Press enter to continue...");
-	stdin.readln();
+	stdout.flush();
+	readln();
 }
 
 /**
