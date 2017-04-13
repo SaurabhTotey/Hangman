@@ -53,6 +53,7 @@ static void main() {
 			getNewWord();
 			stdout.flush();
 			readln();
+			clearLog();
 		}
 	}
 	clearLog();
@@ -154,8 +155,10 @@ static bool interpretInput(string toInterpret){
 		if(startsAtThisIndex){
 			for(int j = 0; j < toInterpret.length; j++){
 				amtRight++;
-				displayableWord[i + j] = to!string(toInterpret[j]);
-				points += (canFind("aeiou", toInterpret[j]))? 1 : 3;
+				if(displayableWord[i + j] == "_"){
+					displayableWord[i + j] = to!string(toInterpret[j]);
+					points += (canFind("aeiou", toInterpret[j]))? 1 : 3;
+				}
 			}
 		}
 	}
