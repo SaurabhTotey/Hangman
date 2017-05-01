@@ -28,7 +28,6 @@ static string[] board = [
 	"     |         ",
 	" ____|___      "
 	];
-immutable static int wrongToEndGame = 7;	
 
 /**
  * Main entry point and beginning of program
