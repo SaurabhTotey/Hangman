@@ -28,6 +28,7 @@ static string[] board = [
 	"     |         ",
 	" ____|___      "
 	];
+static const int wrongToEndGame = 7;	
 
 /**
  * Main entry point and beginning of program
