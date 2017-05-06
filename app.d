@@ -139,8 +139,7 @@ static void incrementWrong(){
 static bool interpretInput(string toInterpret){
 	guessed ~= toInterpret;
 	string[] splitString = split(word, toInterpret);
-	int amtInString = splitString.length - 1;
-	if(amtInString == 0){
+	if(splitString.length - 1 == 0){
 		incrementWrong();
 		return false;
 	}
@@ -154,8 +153,8 @@ static bool interpretInput(string toInterpret){
 		}
 		if(startsAtThisIndex){
 			for(int j = 0; j < toInterpret.length; j++){
-				amtRight++;
 				if(displayableWord[i + j] == "_"){
+					amtRight++;
 					displayableWord[i + j] = to!string(toInterpret[j]);
 					points += (canFind("aeiou", toInterpret[j]))? 1 : 3;
 				}
